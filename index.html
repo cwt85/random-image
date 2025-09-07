@@ -20,41 +20,46 @@
 
   <br>
   <script>
-    const images = [];
-    for (let i = 1; i <= 28; i++) {
-      images.push(`photo/iloveimg-compressed/img${i}.jpg`);
+  const images = [];
+  for (let i = 1; i <= 28; i++) {
+    images.push(`photo/iloveimg-compressed/img${i}.jpg`);
+  }
+
+  let currentIndex = 0;
+  let intervalId = null;
+  let isRunning = false;
+
+  const imgElement = document.getElementById("randomImage");
+  const button = document.getElementById("toggleButton");
+
+  // 顯示圖片，並且「只預先載入下一張」
+  function showImage(index) {
+    imgElement.src = images[index];
+
+    // 預載下一張（非同步，不會卡主線程）
+    const nextIndex = (index + 1) % images.length;
+    const preload = new Image();
+    preload.src = images[nextIndex];
+  }
+
+  button.addEventListener("click", () => {
+    if (!isRunning) {
+      // 開始旋轉
+      isRunning = true;
+      button.textContent = "停止旋轉";
+      intervalId = setInterval(() => {
+        currentIndex = (currentIndex + 1) % images.length;
+        showImage(currentIndex);
+      }, 280); // 0.28 秒換一張
+    } else {
+      // 停止旋轉
+      isRunning = false;
+      button.textContent = "開始旋轉";
+      clearInterval(intervalId);
     }
-
-     // 預載所有圖片
-     images.forEach(src => {
-     const img = new Image();
-       img.src = src;
-    });
-
-    let currentIndex = 0;
-    let intervalId = null;
-    let isRunning = false;
-
-    const imgElement = document.getElementById("randomImage");
-    const button = document.getElementById("toggleButton");
-
-    button.addEventListener("click", () => {
-      if (!isRunning) {
-        // 開始旋轉
-        isRunning = true;
-        button.textContent = "停止旋轉";
-        intervalId = setInterval(() => {
-          currentIndex = (currentIndex + 1) % images.length;
-          imgElement.src = images[currentIndex];
-        }, 280); // 280ms 換一張 (可調整速度)
-      } else {
-        // 停止旋轉
-        isRunning = false;
-        button.textContent = "開始旋轉";
-        clearInterval(intervalId);
-      }
-    });
-  </script>
+  });
+</script>
 </body>
 
 </html>
+
