@@ -46,7 +46,7 @@
         intervalId = setInterval(() => {
           currentIndex = (currentIndex + 1) % images.length;
           imgElement.src = images[currentIndex];
-        }, 120); // 120ms 換一張 (可調整速度)
+        }, 280); // 280ms 換一張 (可調整速度)
       } else {
         // 停止旋轉
         isRunning = false;
@@ -56,4 +56,5 @@
     });
   </script>
 </body>
+
 </html>
