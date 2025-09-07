@@ -20,11 +20,16 @@
 
   <br>
   <script>
-    // 生成 28 張圖片的陣列
     const images = [];
     for (let i = 1; i <= 28; i++) {
       images.push(`photo/img${i}.jpg`);
     }
+
+     // 預載所有圖片
+     images.forEach(src => {
+     const img = new Image();
+       img.src = src;
+    });
 
     let currentIndex = 0;
     let intervalId = null;
