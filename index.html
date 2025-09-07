@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8">
+  <title>隨機圖片抽選器</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <h2>隨機圖片顯示器</h2>
+   <!-- 圖片外層的 Frame -->
+   <!-- 外層 Frame (固定陰影、置中) -->
+  <!-- 包圖片和按鈕的容器 -->
+<!-- 容器：圖片和按鈕永遠垂直對齊 -->
+  <div class="image-section">
+    <div class="outer-frame">
+      <img id="randomImage" src="photo/img1.jpg" alt="圖片">
+    </div>
+    <button id="toggleButton">開始旋轉</button>
+  </div>
+
+  <br>
+  <script>
+    // 生成 28 張圖片的陣列
+    const images = [];
+    for (let i = 1; i <= 28; i++) {
+      images.push(`photo/img${i}.jpg`);
+    }
+
+    let currentIndex = 0;
+    let intervalId = null;
+    let isRunning = false;
+
+    const imgElement = document.getElementById("randomImage");
+    const button = document.getElementById("toggleButton");
+
+    button.addEventListener("click", () => {
+      if (!isRunning) {
+        // 開始旋轉
+        isRunning = true;
+        button.textContent = "停止旋轉";
+        intervalId = setInterval(() => {
+          currentIndex = (currentIndex + 1) % images.length;
+          imgElement.src = images[currentIndex];
+        }, 120); // 120ms 換一張 (可調整速度)
+      } else {
+        // 停止旋轉
+        isRunning = false;
+        button.textContent = "開始旋轉";
+        clearInterval(intervalId);
+      }
+    });
+  </script>
+</body>
+</html>
